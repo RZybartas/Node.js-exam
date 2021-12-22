@@ -1,11 +1,11 @@
-const express = require('express'); 
+const { Router } = require('express'); 
 const joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { dbConfig, jwtSecret } = require('../../config');
 
-const router = express.Router();
+const router = Router();
 
 
 

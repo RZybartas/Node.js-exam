@@ -1,11 +1,11 @@
-const express = require('express');
+const { Router } = require('express');
 const mysql = require('mysql2/promise');
 
 const { dbConfig } = require('../../config');
 const { isLoggedIn } = require('../middleware/authControllers');
 
 
-const router = express.Router();
+const router = Router();
 //Route to get account table
 router.get('/accounts', isLoggedIn, async (req, res) => {
     const user_id = req.token;
@@ -27,7 +27,7 @@ router.get('/accounts', isLoggedIn, async (req, res) => {
         res.status(404).send({ error: 'Not logged'})
     }
 });
-
+//Route to post into accounts
 router.post('/accounts', isLoggedIn, async (req,res) => {
     if (!req.body.group_id || !req.token){
         return res.status(404).send({ error: 'Incorrect data'})
