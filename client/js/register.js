@@ -1,13 +1,10 @@
-const form = document.querySelector(".register");
-console.log(form)
+const formRegister = document.querySelector(".register");
 
-
-
-form.addEventListener('submit', async (e) => {
+formRegister.addEventListener('submit', async (e) => {
     e.preventDefault();
     // Get the values
-    const formElements = new FormData(form)
-    console.log(formElements)
+    const formElements = new FormData(formRegister)
+
     const [full_name, email, password] = formElements.values()
     try {
         const res = await fetch("http://localhost:6250/register", {
@@ -17,10 +14,10 @@ form.addEventListener('submit', async (e) => {
         });
         const data = await res.json();
         
-        if (!password.value === repeatPassword.value) {
-            repeatPassword.style.borderColor = 'red';
+        if (!data) {
+            console.log('Incorrect data')
         } else {
-            repeatPassword.style.borderColor = 'green';
+            
             location.assign('./login.html');
         }
     } catch (err) {
@@ -28,3 +25,5 @@ form.addEventListener('submit', async (e) => {
     }
     
 })
+
+

@@ -3,7 +3,7 @@
     height: 600px;
     margin: 20% auto;
 }
-.form-group{
+form{
     width: 100%;
 }
 h2 {
@@ -20,7 +20,7 @@ input {
     margin: 0 0 20px 0
 }
 
-.submit {
+.add {
     border: 1px solid #000;
     margin: 10px 0 ;
     padding: 5px 10px;
