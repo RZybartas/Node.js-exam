@@ -14,11 +14,11 @@ const userSchema = joi.object({
     email: joi.string().email().lowercase().required(),
     password: joi.string().min(8).required(),
 });
-//route for sign up
+//Route for sign up
 router.post('/register', async (req, res) => {
     let userData = req.body;
     
-    
+    //Validating data
     try {
         userData = await userSchema.validateAsync(userData)
         console.log(userData)
@@ -27,6 +27,7 @@ router.post('/register', async (req, res) => {
             }
             
         try {
+            //Hashing password
             const hashPw = bcrypt.hashSync(userData.password);
             
             const con = await mysql.createConnection(dbConfig)
@@ -44,12 +45,13 @@ router.post('/register', async (req, res) => {
             return res.status(500).send({ error: 'Please try again !' })
         }
         });
-        
+        //Route for login
         router.post('/login', async (req, res) => {
             let userData = req.body;
             const { mysql } = req.app;
             
             try {
+                //Validating data
                 userData = await userSchema.validateAsync(userData);
             } catch (error) {
                 return res.status(404).send({ error: 'Incorrect email or password' })
