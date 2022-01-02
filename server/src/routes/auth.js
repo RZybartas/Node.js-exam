@@ -2,9 +2,9 @@ const { Router } = require('express');
 const joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mysql = require('mysql2/promise');
 
-
-const { jwtSecret } = require('../../config');
+const { dbConfig, jwtSecret } = require('../../config');
 
 const router = Router();
 
@@ -23,7 +23,6 @@ const loginSchema = joi.object({
 //Route for sign up
 router.post('/register', async (req, res) => {
     let userData = req.body;
-    const { mysql } = req.app;
     
     // Validating data
     try {
@@ -36,12 +35,13 @@ router.post('/register', async (req, res) => {
     try {
         //Hashing password
         const hashPw = bcrypt.hashSync(userData.password, 10);
-            
-        const query = `INSERT INTO users (full_name, email, password)
-        VALUES('${userData.full_name}', '${userData.email}', '${hashPw}')`;
-        const [data] = await mysql.query(query);
-        
-            
+       
+        const con = await mysql.createConnection(dbConfig);
+        const [data] = await con.execute(`
+        INSERT INTO users (full_name, email, password)
+        VALUES ("${userData.full_name}", "${userData.email}", "${hashPw}")
+        `);
+        await con.end();
             
             return res.send(data)
         } catch (error) {

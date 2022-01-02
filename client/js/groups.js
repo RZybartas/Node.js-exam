@@ -1,10 +1,11 @@
 const wrapper = document.querySelector(".wrapper");
 const groupMsg = document.querySelector('.message');
 const formGroup = document.querySelector('form')
+const id =  location.search.substring(2);
+console.log(id)
 
 const displayGroups = async () => {
     wrapper.innerHTML = '';
-
     try {
         const response = await fetch('http://localhost:6250/accounts', {
             method: 'GET',
@@ -14,17 +15,19 @@ const displayGroups = async () => {
             }
         });
         const data = await response.json();
-        console.log(data)
+        
         if (data.length === 0) {
             groupMsg.innerHTML = "You don't have Groups"
         };
         data.map(group => {
             const div = document.createElement('div');
             div.className = 'group-card';
-            div.style.border = '1px solid #eee'
             const h3 = document.createElement('h3');
             h3.className = 'group-id';
             h3.innerText = `Id: ${group.group_id}`;
+            div.onclick = () => {
+                window.location.href = `http://127.0.0.1:5500/client/html/bills.html?=${group.group_id}`}
+            
             div.append(h3);
             wrapper.append(div);
             

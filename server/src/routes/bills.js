@@ -1,22 +1,20 @@
 const { Router } = require('express');
-const joi = require('joi');
-const { dbConfig } = require('../../config');
 const { isLoggedIn } = require('../middleware/authControllers');
+const mysql = require('mysql2/promise');
+
+const { dbConfig } = require('../../config');
 
 const router = Router();
 
-const amountSchema = joi.object({
-    amount: joi.number().required(),
-    descriprion: joi.string().required(),
-})
+
 //Route to get bills specific group
-router.get('/bills/:id', isLoggedIn, async (req,res) => {
-    const id = req.params.group_id
+router.get('/:id', isLoggedIn, async (req,res) => {
     try {
+        
         const con = await mysql.createConnection(dbConfig);
         const [bills] = await con.execute(`
         SELECT * FROM bills
-        WHERE bills.group_id = ${mysql.escape(id)}
+        WHERE group_id = ${req.params.id}
         `);
         await con.end();
 
@@ -27,23 +25,17 @@ router.get('/bills/:id', isLoggedIn, async (req,res) => {
     }
 });
 // Route to post bill for specific group
-router.post('/bills', isLoggedIn, async (req, res) => {
+router.post('/', isLoggedIn, async (req, res) => {
     const billData = req.body;
-
-    try {
-        billData = await amountSchema.validateAsync(billData)
-    } catch (error) {
-        return res.status(404).send({ error: 'Incorrect bill data' })
-    }
 
     try {
         const con = await mysql.createConnection(dbConfig);
         const [bills] = await con.execute(`
         INSERT INTO bills (group_id, amount, description)
         VALUES (
-            ${mysql.escape(billData.group_id)}, 
-            ${mysql.escape(billData.amount)},
-            ${mysql.escape(billData.descriprion)}
+            ${billData.group_id}, 
+            ${billData.amount},
+            '${billData.description}'
             )
         `);
         await con.end();
@@ -51,7 +43,8 @@ router.post('/bills', isLoggedIn, async (req, res) => {
         
         return res.status(201).send(bills)
     } catch (error) {
-        
+        console.log(error);
+        res.status(404).send({ error: 'Incorrect data'})
     }
 });
 

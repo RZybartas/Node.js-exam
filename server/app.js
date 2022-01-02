@@ -6,7 +6,7 @@ const {port, dbConfig} = require('./config')
 
 const auth = require('./src/routes/auth');
 const accounts = require('./src/routes/accounts');
-
+const bills = require('./src/routes/bills');
 
 const main = async () => {
     const app = express();
@@ -66,7 +66,7 @@ const main = async () => {
         
         app.use('/', auth);
         app.use('/accounts', accounts);
-       
+        app.use('/bills', bills);
 
         app.get('*', (req, res) => {
             res.status(404).send({ error: 'Page not found'})
