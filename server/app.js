@@ -5,6 +5,8 @@ const {port, dbConfig} = require('./config')
 
 
 const auth = require('./src/routes/auth');
+const accounts = require('./src/routes/accounts');
+
 
 const main = async () => {
     const app = express();
@@ -25,9 +27,9 @@ const main = async () => {
         `;
 
         const createTableGroups = `
-            CREATE TABLE IF NOT EXISTS usergroups (
+            CREATE TABLE IF NOT EXISTS user_groups (
             id INTEGER AUTO_INCREMENT NOT NULL,
-            name VARCHAR(50) NOT NULL,
+            name VARCHAR(100) NOT NULL,
             PRIMARY KEY (id)
         )
         `;
@@ -35,20 +37,20 @@ const main = async () => {
         const createTableBills = `
             CREATE TABLE IF NOT EXISTS bills (
             id INTEGER AUTO_INCREMENT NOT NULL,
-            group_id INTEGER,
+            group_id INTEGER NOT NULL,
             amount DECIMAL(5, 2) NOT NULL,
             description TEXT NOT NULL,
             PRIMARY KEY (id),
-            FOREIGN KEY (group_id) REFERENCES usergroups (id)
+            FOREIGN KEY (group_id) REFERENCES user_groups (id)
         )
         `;
         const createTableAccounts = `
             CREATE TABLE IF NOT EXISTS accounts (
             id INTEGER AUTO_INCREMENT NOT NULL,
-            group_id INTEGER,
-            user_id INTEGER,
+            group_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
             PRIMARY KEY (id),
-            FOREIGN KEY (group_id) REFERENCES usergroups (id),
+            FOREIGN KEY (group_id) REFERENCES user_groups (id),
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
         `;
@@ -63,6 +65,8 @@ const main = async () => {
         app.mysql = con;
         
         app.use('/', auth);
+        app.use('/accounts', accounts);
+       
 
         app.get('*', (req, res) => {
             res.status(404).send({ error: 'Page not found'})
