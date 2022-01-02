@@ -1,0 +1,51 @@
+header {
+    text-align: center;
+    margin: 10% 0 30px 0;
+}
+
+.container {
+    text-align: center;
+}
+h1 {
+    font-size: 20px;
+    font-weight: bolder;
+}
+h4 {
+    font-size: 20px;
+
+}
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    gap: 20px;
+    justify-content: space-between;
+    text-align: center;
+}
+.group-card {
+    padding: 20px;
+}
+.group-form {
+    display: flex;
+	flex-direction: column;
+    width: 250px;
+    height: 200px;
+    margin: 20px auto;
+}
+label {
+    font-weight: bolder;
+    font-size: 12px;
+    text-align: left;
+}
+input {
+    width: 100%;
+    border: 1px solid #eee;
+}
+button {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 3px;
+    width: 50px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+
+}

@@ -15,25 +15,32 @@ const displayGroups = async () => {
         });
         const data = await response.json();
         console.log(data)
-
         if (data.length === 0) {
-            
             groupMsg.innerHTML = "You don't have Groups"
-        }
+        };
+        data.map(group => {
+            const div = document.createElement('div');
+            div.className = 'group-card';
+            div.style.border = '1px solid #eee'
+            const h3 = document.createElement('h3');
+            h3.className = 'group-id';
+            h3.innerText = `Id: ${group.group_id}`;
+            div.append(h3);
+            wrapper.append(div);
+            
+        })
+        return wrapper
     } catch (error) {
         console.log(error)
     }
-    
 };
 
 displayGroups();
-
-
-
+            
 formGroup.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = new FormData(formGroup);
-    const [group_id, name] = form.values();
+    const [group_id] = form.values();
     
     
     try {
@@ -41,13 +48,21 @@ formGroup.addEventListener('submit', async (e) => {
             method: "POST",
             headers: { authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 "Content-Type": "application/json"},
-            body: JSON.stringify({group_id, name})
+            body: JSON.stringify({group_id})
         });
+        
         const data = await req.json();
-        console.log(data)
+        await displayGroups();
+        return data
         
     } catch (error) {
         console.log(error)
     }
     
 })
+            
+
+        
+    
+
+

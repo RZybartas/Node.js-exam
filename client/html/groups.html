@@ -4,30 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../styles/main.css">
+    <title>Groups</title>
+    <link rel="stylesheet" href="../styles/groups.css">
     <script src="../js/groups.js" defer></script>
 </head>
 <body>
-    <main>
-        <div>
-            <h1>Select Your Group</h1>
+    <header>
+        <img src="../assets/pngegg.png" alt="logo">
+        <h2>Yours bills</h2>
+    </header>
+    
+        <div class="container">
+            <h4>Select Your Group</h4>
             <div class="message"></div>
             <div class="wrapper"></div>
-
         </div>
-        <div>
-            <h2>Add Group</h2>
-            <form class="group-form">
-                <label for="id">Group Id</label>
+        <div class="group-form">
+            <h4>Add Group</h4>
+            <form>
+                <label for="id">Group ID:</label>
                 <input type="number" name="group_id">
-                <label for="name">Group Name</label>
-                <input type="text" name="name">
-                <button  type="submit">Add Group</button>
+                <button  type="submit">Add</button>
             </form>
         </div>
-    </main>
+
 </body>
 </html>
+
 
 
