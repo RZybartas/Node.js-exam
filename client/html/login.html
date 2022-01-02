@@ -4,21 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="../styles/main.css">
-    <script src="../js/login.js"></script>
+    <title>Login</title>
+    <link rel="stylesheet" href="../styles/login.css">
+    <script src="../js/login.js" defer></script>
 </head>
 <body>
+    <header>
+        <img src="../assets/pngegg.png" alt="logo">
+        <h2>Yours bills</h2>
+    </header>
     <div class="container">
         <h2>Login</h2>
-        <form class="login">
-            <label for="email">Email</label>
-            <input type="email" name="email">
+        <form id="login">
+            <label for="email">Email</label >
+            <input type="email" name="email" required>
             <label for="password">Password</label>
-            <input class="password" type="password" name="password">
+            <input class="password" type="password" name="password" required>
+            <div class="message"></div>
             <button  class="add" type="submit">Login</button>
         </form>
-        <p>Don't have an account? Register</p>
+        <a href="register.html">Don't have an account? Register</a>
     </div>
 </body>
 </html>
