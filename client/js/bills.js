@@ -9,7 +9,7 @@ const getBills = async () => {
     
     table.innerHTML = "";
     try {
-        const response = await fetch(`http://localhost:6250/bills/${group_id}`, {
+        const response = await fetch(`http://localhost:8080/bills/${group_id}`, {
             method: 'GET',
             headers: {
                 authorization:
@@ -47,7 +47,7 @@ billForm.addEventListener('submit', async (e) => {
     const [amount, description] = form.values();
     
     try {
-        const req = await fetch(`http://localhost:6250/bills`, {
+        const req = await fetch(`http://localhost:8080/bills`, {
             method: "POST",
             headers: { authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 "Content-Type": "application/json"},

@@ -44,42 +44,43 @@ router.post('/register', async (req, res) => {
         await con.end();
             
             return res.send(data)
-        } catch (error) {
-            return res.status(500).send({ error: 'Please try again !' })
-        }
-        });
+    } catch (error) {
+        return res.status(500).send({ error: 'Please try again !' })
+    }
+    });
+
         //Route for login
-        router.post('/login', async (req, res) => {
-            let userData = req.body;
-            const { mysql } = req.app;
-            
-            try {
-                //Validating data
-                userData = await loginSchema.validateAsync(userData);
-                
-            } catch (error) {
-                return res.status(400).send({ error: 'Incorrect email or password' })
-            };
-            
-            try {
-                const query = `SELECT * FROM users
-                WHERE email = ${mysql.escape(userData.email)}`;
-                
-                const [data] = await mysql.query(query)
-                
-                if (data.length === 0) {
-                    return res.status(400).send({ error: 'Incorrect email or password'})
-                }
-                //Checking password if exists
-                const isAuthed = bcrypt.compareSync(userData.password, data[0].password);
-                
-                if (isAuthed) {
-                    const token = jwt.sign({ id: data[0].id, email: data[0].email}, jwtSecret);
-                    
-                    return res.send({ msg: 'Succesfully logged', token}) 
-                };
+router.post('/login', async (req, res) => {
+    let userData = req.body;
+    const { mysql } = req.app;
+    
+    try {
+        //Validating data
+        userData = await loginSchema.validateAsync(userData);
         
-        return res.status(400).send({ error: 'Incorrect email or password'});
+    } catch (error) {
+        return res.status(400).send({ error: 'Incorrect email or password' })
+    };
+    
+    try {
+        const query = `SELECT * FROM users
+        WHERE email = ${mysql.escape(userData.email)}`;
+        
+        const [data] = await mysql.query(query)
+        
+        if (data.length === 0) {
+            return res.status(400).send({ error: 'Incorrect email or password'})
+        }
+        //Checking password if exists
+        const isAuthed = bcrypt.compareSync(userData.password, data[0].password);
+        
+        if (isAuthed) {
+            const token = jwt.sign({ id: data[0].id, email: data[0].email}, jwtSecret);
+            
+            return res.send({ msg: 'Succesfully logged', token}) 
+        };
+
+        return res.status(201).send(data);
     } catch (error) {
         return res.status(500).send({ error: 'Please try again'})
     }

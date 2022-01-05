@@ -4,7 +4,7 @@ const logMessage = document.querySelector('.message');
 
 const login = async (email, password) => {
     try {
-        const req = await fetch("http://localhost:6250/login", {
+        const req = await fetch("http://localhost:8080/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
