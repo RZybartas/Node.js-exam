@@ -7,7 +7,7 @@ console.log(id)
 const displayGroups = async () => {
     wrapper.innerHTML = '';
     try {
-        const response = await fetch('http://localhost:6250/accounts', {
+        const response = await fetch('http://localhost:8080/accounts', {
             method: 'GET',
             headers: {
                 authorization:
@@ -47,7 +47,7 @@ formGroup.addEventListener('submit', async (e) => {
     
     
     try {
-        const req = await fetch("http://localhost:6250/accounts", {
+        const req = await fetch("http://localhost:8080/accounts", {
             method: "POST",
             headers: { authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 "Content-Type": "application/json"},

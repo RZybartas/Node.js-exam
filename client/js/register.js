@@ -7,14 +7,20 @@ const message = document.querySelector('.message')
 
 const register = async (full_name, email, password) => {
     try {
-        const req = await fetch("http://localhost:6250/register", {
+        const req = await fetch("http://localhost:8080/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ full_name, email, password }),
         });
         
         const data = req.json();
-        window.location.reload(true)
+        window.location.reload(true);
+
+        if(data.error) {
+            message.textContent = 'Incorrect data or password'
+        } else {
+            location.assign('./login.html');
+        }
         return data
     } catch (error) {
         console.log({error: ' Incorrect password or email'})
@@ -48,5 +54,5 @@ const check = () => {
         message.innerHTML = 'Macthing';
         message.style.color = 'green'
         btnSubmit.disabled = false;
-};
+    };
 };
